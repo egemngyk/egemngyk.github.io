@@ -1,25 +1,695 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="egemngyk GitHub profili: README, depolar ve projeler.">
+  <title>egemngyk · GitHub</title>
 
-  <title>Egemen Geyik — GitHub</title>
-  <meta name="description" content="Redirecting to Egemen Geyik's GitHub profile.">
-  <meta name="robots" content="noindex, follow">
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #fff;
+      --surface: #f6f6f6;
+      --text: #171717;
+      --muted: #737373;
+      --border: #dedede;
+      --link: #171717;
+      --focus: #2563eb;
+    }
 
-  <link rel="canonical" href="https://github.com/egemngyk">
-  <meta http-equiv="refresh" content="0;url=https://github.com/egemngyk">
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0a0a0a; --surface: #141414; --text: #ededed;
+        --muted: #999; --border: #303030; --link: #ededed; --focus: #60a5fa;
+      }
+    }
 
-  <script>
-    window.location.replace("https://github.com/egemngyk");
-  </script>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 20px; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 14px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    a { color: var(--link); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    :focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
+
+    header {
+      height: 62px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 0 24px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+    .mark { font-size: 25px; font-weight: 700; }
+    header strong { font-size: 15px; }
+    header .account { margin-left: auto; color: var(--muted); }
+
+    main { max-width: 1100px; margin: 0 auto; padding: 28px 24px 50px; }
+
+    nav {
+      display: flex;
+      gap: 24px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 28px;
+      position: sticky;
+      top: 0;
+      background: var(--bg);
+      z-index: 5;
+    }
+    nav a { padding: 12px 2px; color: var(--muted); border-bottom: 2px solid transparent; }
+    nav a[aria-current="true"] { color: var(--text); border-bottom-color: var(--text); font-weight: 600; }
+
+    .layout { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 32px; }
+
+    .avatar {
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      object-fit: cover;
+      background: var(--surface);
+    }
+
+    h1 { margin: 16px 0 0; font-size: 25px; line-height: 1.3; overflow-wrap: anywhere; }
+    .username { color: var(--muted); font-size: 19px; font-weight: 300; }
+    .bio { margin: 16px 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+
+    .button {
+      display: block;
+      text-align: center;
+      padding: 7px 12px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--surface);
+      font-weight: 600;
+    }
+    .stats { margin: 14px 0; color: var(--muted); }
+    .details { padding: 0; margin: 18px 0; list-style: none; color: var(--muted); }
+    .details li { display: flex; align-items: flex-start; gap: 8px; margin: 8px 0; overflow-wrap: anywhere; }
+    .details svg { flex: none; margin-top: 3px; }
+    .details a { color: var(--text); }
+    .orgs { display: flex; flex-wrap: wrap; gap: 6px; margin: 14px 0; }
+    .orgs img { display: block; width: 32px; height: 32px; border-radius: 6px; border: 1px solid var(--border); }
+
+    h2 { margin: 0 0 14px; font-size: 16px; font-weight: 600; }
+
+    /* README */
+    .readme {
+      margin-bottom: 36px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .readme-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 14px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      font-weight: 600;
+    }
+    .readme-title a { font-weight: 400; color: var(--muted); }
+    .readme-content { padding: 16px 20px; overflow-wrap: anywhere; line-height: 1.6; }
+    .readme-content > :first-child { margin-top: 0; }
+    .readme-content > :last-child { margin-bottom: 0; }
+    .readme-content img { max-width: 100%; height: auto; }
+    .readme-content a { text-decoration: underline; text-underline-offset: 2px; }
+    .readme-content h1, .readme-content h2, .readme-content h3,
+    .readme-content h4 {
+      margin: 24px 0 14px;
+      padding-bottom: 7px;
+      line-height: 1.3;
+    }
+    .readme-content h1, .readme-content h2 { border-bottom: 1px solid var(--border); }
+    .readme-content h1 { font-size: 24px; }
+    .readme-content h2 { font-size: 19px; }
+    .readme-content h3 { font-size: 16px; }
+    .readme-content pre {
+      overflow-x: auto;
+      padding: 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+    }
+    .readme-content code {
+      font: 12.5px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      background: var(--surface);
+      padding: 2px 5px;
+      border-radius: 4px;
+    }
+    .readme-content pre code { background: none; padding: 0; }
+    .readme-content blockquote {
+      margin: 14px 0;
+      padding: 0 14px;
+      color: var(--muted);
+      border-left: 3px solid var(--border);
+    }
+    .readme-content table { border-collapse: collapse; display: block; overflow-x: auto; }
+    .readme-content th, .readme-content td { border: 1px solid var(--border); padding: 6px 12px; }
+    .readme-content th { background: var(--surface); }
+    .readme-content hr { border: 0; border-top: 1px solid var(--border); margin: 22px 0; }
+    .readme-content ul, .readme-content ol { padding-left: 24px; }
+    .readme-content li > input { margin-right: 6px; }
+
+    /* Repositories */
+    .toolbar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+    .toolbar input, .toolbar select {
+      font: inherit;
+      color: var(--text);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 6px 10px;
+    }
+    .toolbar input { flex: 1 1 200px; min-width: 0; }
+    .toolbar label { display: flex; align-items: center; gap: 6px; color: var(--muted); }
+
+    .count { color: var(--muted); font-weight: 400; margin-left: 6px; }
+
+    .repo { padding: 16px 0; border-bottom: 1px solid var(--border); }
+    .repo:first-child { border-top: 1px solid var(--border); }
+    .repo-name { font-size: 16px; font-weight: 600; }
+    .label {
+      display: inline-block;
+      margin-left: 6px;
+      padding: 0 7px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 400;
+    }
+    .description { color: var(--muted); margin: 7px 0 10px; overflow-wrap: anywhere; }
+    .topics { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 10px; }
+    .topics span {
+      padding: 0 8px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--surface);
+      font-size: 12px;
+    }
+    .meta { display: flex; flex-wrap: wrap; gap: 14px; color: var(--muted); font-size: 12px; }
+    .dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      margin-right: 5px;
+      border-radius: 50%;
+      background: var(--muted);
+    }
+
+    .more { margin-top: 16px; width: 100%; cursor: pointer; font: inherit; color: var(--text); }
+    .status { padding: 18px 0; color: var(--muted); }
+    .skeleton {
+      height: 14px;
+      margin: 10px 0;
+      border-radius: 4px;
+      background: var(--surface);
+    }
+
+    footer {
+      margin-top: 38px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 12px;
+      text-align: center;
+    }
+
+    @media (max-width: 650px) {
+      main { padding: 20px 16px 36px; }
+      header { padding: 0 16px; }
+      .layout { grid-template-columns: 1fr; gap: 28px; }
+      .profile {
+        display: grid;
+        grid-template-columns: 76px minmax(0, 1fr);
+        gap: 0 16px;
+      }
+      .avatar { width: 76px; grid-row: span 2; }
+      h1 { margin-top: 0; font-size: 22px; }
+      .username { font-size: 16px; }
+      .bio, .button, .stats, .details, .orgs { grid-column: 1 / -1; }
+      .readme-content { padding: 14px; }
+    }
+  </style>
 </head>
+
 <body>
-  <p>
-    Redirecting to
-    <a href="https://github.com/egemngyk">github.com/egemngyk</a>...
-  </p>
+  <header>
+    <a class="mark" href="https://github.com" aria-label="GitHub">⌘</a>
+    <strong>GitHub</strong>
+    <a class="account" href="https://github.com/egemngyk">egemngyk</a>
+  </header>
+
+  <main>
+    <nav aria-label="Bölümler">
+      <a href="#overview" aria-current="true">Genel bakış</a>
+      <a href="#readme">README</a>
+      <a href="#repositories">Depolar</a>
+    </nav>
+
+    <div class="layout" id="overview">
+      <aside class="profile">
+        <img class="avatar" id="avatar" src="https://github.com/egemngyk.png" alt="Profil fotoğrafı">
+
+        <h1 id="name">egemngyk</h1>
+        <div class="username" id="username">@egemngyk</div>
+
+        <p class="bio" id="bio">Profil yükleniyor…</p>
+
+        <a class="button" href="https://github.com/egemngyk">GitHub profilini aç</a>
+
+        <p class="stats" id="stats"></p>
+        <ul class="details" id="details"></ul>
+        <div class="orgs" id="orgs"></div>
+      </aside>
+
+      <div>
+        <section class="readme" id="readme" hidden>
+          <div class="readme-title">
+            <span id="readme-path">README.md</span>
+            <a id="readme-edit" href="https://github.com/egemngyk/egemngyk" rel="noopener noreferrer">GitHub'da aç</a>
+          </div>
+          <article class="readme-content" id="readme-content"></article>
+        </section>
+
+        <section id="repositories">
+          <h2>Depolar<span class="count" id="count"></span></h2>
+
+          <div class="toolbar" id="toolbar" hidden>
+            <input id="q" type="search" placeholder="Depo ara…" aria-label="Depo ara">
+            <select id="lang" aria-label="Dile göre filtrele"><option value="">Tüm diller</option></select>
+            <select id="sort" aria-label="Sırala">
+              <option value="stars">En çok yıldız</option>
+              <option value="updated">Son güncellenen</option>
+              <option value="created">En yeni</option>
+              <option value="name">Ada göre</option>
+            </select>
+          </div>
+
+          <div id="repo-list" class="status" aria-live="polite">
+            <div class="skeleton"></div><div class="skeleton" style="width:70%"></div><div class="skeleton" style="width:85%"></div>
+          </div>
+          <button class="button more" id="more" type="button" hidden>Daha fazla göster</button>
+        </section>
+      </div>
+    </div>
+
+    <footer>
+      <!-- Sabit imza: gösterilen profilden bağımsızdır -->
+      <a href="https://github.com">GitHub</a> · Minimal profil · <a href="https://github.com/egemngyk" rel="noopener noreferrer">egemngyk</a>
+    </footer>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
+  <script>
+    const USER = "egemngyk";
+    // GitHub API saat dilimini vermez; yerel saat için buraya IANA adı yaz ("" = gizle).
+    const TIMEZONE = "Europe/Istanbul";
+    const API = "https://api.github.com";
+    const PAGE = 10;
+    const TTL = 10 * 60 * 1000;
+    const COLORS = {
+      JavaScript: "#f1e05a", TypeScript: "#3178c6", Python: "#3572a5", HTML: "#e34c26",
+      CSS: "#663399", Java: "#b07219", "C#": "#178600", "C++": "#f34b7d", C: "#555555",
+      Go: "#00add8", Rust: "#dea584", PHP: "#4f5d95", Kotlin: "#a97bff", Swift: "#f05138",
+      Dart: "#00b4ab", Shell: "#89e051", Ruby: "#701516", Vue: "#41b883", Lua: "#000080"
+    };
+
+    const $ = id => document.getElementById(id);
+    const state = { repos: [], shown: PAGE, user: null, socials: [], orgs: [] };
+
+    const escapeHTML = value =>
+      String(value ?? "").replace(/[&<>"']/g, c => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+      })[c]);
+
+    /* ---- Önbellek (hata verirse sessizce atlanır) ---- */
+    const cache = {
+      get(key) {
+        try {
+          const item = JSON.parse(localStorage.getItem("gh:" + key));
+          return item && Date.now() - item.t < TTL ? item.v : null;
+        } catch { return null; }
+      },
+      set(key, v) {
+        try { localStorage.setItem("gh:" + key, JSON.stringify({ t: Date.now(), v })); } catch {}
+      }
+    };
+
+    async function fetchJSON(url) {
+      const cached = cache.get(url);
+      if (cached) return cached;
+
+      const response = await fetch(url, { headers: { Accept: "application/vnd.github+json" } });
+
+      if (!response.ok) {
+        const error = new Error(`GitHub API: ${response.status}`);
+        error.status = response.status;
+        if (response.status === 403 || response.status === 429) {
+          const reset = response.headers.get("x-ratelimit-reset");
+          if (reset) error.reset = new Date(reset * 1000);
+        }
+        throw error;
+      }
+      const data = await response.json();
+      cache.set(url, data);
+      return data;
+    }
+
+    const errorText = (error, fallback) =>
+      error.reset
+        ? `GitHub API sınırına ulaşıldı. ${error.reset.toLocaleTimeString("tr-TR")} sonrasında tekrar deneyin.`
+        : fallback;
+
+    /* ---- Detay listesi: ikonlar, temiz bağlantılar, sosyal hesaplar ---- */
+    const ICONS = {
+      pin: `<path d="M8 14.5s5-4.3 5-8.2a5 5 0 0 0-10 0c0 3.9 5 8.2 5 8.2z"/><circle cx="8" cy="6.3" r="1.8"/>`,
+      clock: `<circle cx="8" cy="8" r="6"/><path d="M8 4.5V8l2.4 1.6"/>`,
+      link: `<path d="M6.8 9.2a2.6 2.6 0 0 0 3.7 0l2-2a2.6 2.6 0 0 0-3.7-3.7l-.6.6"/><path d="M9.2 6.8a2.6 2.6 0 0 0-3.7 0l-2 2a2.6 2.6 0 0 0 3.7 3.7l.6-.6"/>`,
+      mail: `<rect x="2" y="3.5" width="12" height="9" rx="1.5"/><path d="M2.5 5l5.5 4 5.5-4"/>`,
+      building: `<rect x="3" y="2" width="10" height="12" rx="1"/><path d="M6 5h1M9 5h1M6 8h1M9 8h1M7 14v-3h2v3"/>`,
+      calendar: `<rect x="2.5" y="3.5" width="11" height="10" rx="1.5"/><path d="M2.5 6.5h11M5.5 2v3M10.5 2v3"/>`,
+      check: `<circle cx="8" cy="8" r="6"/><path d="M5.5 8.2l1.8 1.8 3.3-3.6"/>`,
+      instagram: `<rect x="2.5" y="2.5" width="11" height="11" rx="3.5"/><circle cx="8" cy="8" r="2.5"/><circle cx="11.2" cy="4.8" r=".4"/>`,
+      x: `<path d="M3.5 3.5l9 9M12.5 3.5l-9 9"/>`,
+      linkedin: `<rect x="2.5" y="2.5" width="11" height="11" rx="2"/><path d="M5.5 7v4M5.5 5.2v.1M8 11V7M8 8.6C8 7.6 8.8 7 9.6 7S11 7.6 11 8.6V11"/>`,
+      youtube: `<rect x="1.5" y="3.5" width="13" height="9" rx="3"/><path d="M6.8 6v4l3.4-2z"/>`
+    };
+    const icon = name =>
+      `<svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" ` +
+      `stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name]}</svg>`;
+
+    const toUrl = raw => /^https?:\/\//i.test(raw) ? raw : `https://${raw}`;
+
+    // https://www.site.com/yol/ -> site.com/yol
+    function cleanUrl(raw) {
+      try {
+        const u = new URL(toUrl(raw));
+        return (u.hostname.replace(/^www\./, "") + u.pathname + u.search).replace(/\/$/, "");
+      } catch { return raw; }
+    }
+
+    const PROVIDERS = [
+      { test: /(^|\.)instagram\.com$/, key: "instagram", name: "Instagram", at: true },
+      { test: /(^|\.)(x|twitter)\.com$/, key: "x", name: "X", at: true },
+      { test: /(^|\.)linkedin\.com$/, key: "linkedin", name: "LinkedIn", at: false },
+      { test: /(^|\.)(youtube\.com|youtu\.be)$/, key: "youtube", name: "YouTube", at: false }
+    ];
+
+    function socialInfo(account) {
+      const href = toUrl(account.url);
+      try {
+        const u = new URL(href);
+        const host = u.hostname.replace(/^www\./, "");
+        const provider = PROVIDERS.find(p => p.test.test(host));
+        if (!provider) return { href, icon: "link", text: cleanUrl(href), name: host };
+
+        const parts = u.pathname.split("/").filter(Boolean);
+        if (["in", "company", "channel", "c", "user"].includes(parts[0])) parts.shift();
+        const handle = decodeURIComponent(parts[0] || "").replace(/^@/, "");
+        if (!handle) return { href, icon: provider.key, text: provider.name, name: provider.name };
+        return {
+          href, icon: provider.key, name: provider.name,
+          text: provider.at || provider.key === "youtube" ? `@${handle}` : handle
+        };
+      } catch { return { href, icon: "link", text: cleanUrl(href), name: "Bağlantı" }; }
+    }
+
+    function renderDetails() {
+      const user = state.user;
+      if (!user) return;
+
+      const rows = [];
+      const add = (name, html) => rows.push(`<li>${icon(name)}<span>${html}</span></li>`);
+      const external = (href, text, title) =>
+        `<a href="${escapeHTML(href)}" title="${escapeHTML(title || text)}" rel="noopener noreferrer" target="_blank">${escapeHTML(text)}</a>`;
+
+      if (user.company) add("building", escapeHTML(user.company));
+      if (user.location) add("pin", escapeHTML(user.location));
+      if (TIMEZONE) add("clock", `<time id="clock"></time>`);
+      if (user.hireable) add("check", "İşe alıma açık");
+      if (user.blog) add("link", external(toUrl(user.blog), cleanUrl(user.blog), user.blog));
+      if (user.email) add("mail", `<a href="mailto:${escapeHTML(user.email)}">${escapeHTML(user.email)}</a>`);
+
+      const seen = new Set([cleanUrl(user.blog || "")]);
+      const socials = [...state.socials];
+      if (user.twitter_username && !socials.some(a => /(x|twitter)\.com/.test(a.url))) {
+        socials.push({ url: `https://x.com/${user.twitter_username}` });
+      }
+      socials.forEach(account => {
+        const info = socialInfo(account);
+        const key = cleanUrl(info.href);
+        if (seen.has(key)) return;
+        seen.add(key);
+        add(info.icon, external(info.href, info.text, `${info.name}: ${key}`));
+      });
+
+      add("calendar", `Katılım: ${new Date(user.created_at).toLocaleDateString("tr-TR", { year: "numeric", month: "long" })}`);
+
+      $("details").innerHTML = rows.join("");
+      updateClock();
+    }
+
+    function updateClock() {
+      const el = $("clock");
+      if (!el || !TIMEZONE) return;
+      try {
+        const now = new Date();
+        const time = new Intl.DateTimeFormat("tr-TR", { timeZone: TIMEZONE, hour: "2-digit", minute: "2-digit" }).format(now);
+        const offset = new Intl.DateTimeFormat("en", { timeZone: TIMEZONE, timeZoneName: "shortOffset" })
+          .formatToParts(now).find(p => p.type === "timeZoneName").value.replace("GMT", "UTC");
+        el.textContent = `Yerel saat ${time} (${offset === "UTC" ? "UTC+0" : offset})`;
+      } catch { el.closest("li").remove(); }
+    }
+    setInterval(updateClock, 30000);
+
+    function renderOrgs(orgs) {
+      $("orgs").innerHTML = orgs.map(o =>
+        `<a href="https://github.com/${escapeHTML(o.login)}" title="${escapeHTML(o.login)}" rel="noopener noreferrer">` +
+        `<img src="${escapeHTML(o.avatar_url)}&s=64" alt="${escapeHTML(o.login)}" loading="lazy"></a>`
+      ).join("");
+    }
+
+    /* ---- Profil ---- */
+    function renderProfile(user) {
+      $("avatar").src = user.avatar_url;
+      $("avatar").alt = `${user.login} profil fotoğrafı`;
+      $("name").textContent = user.name || user.login;
+      $("username").textContent = `@${user.login}`;
+      $("bio").textContent = user.bio || "";
+      $("bio").hidden = !user.bio;
+      $("stats").innerHTML =
+        `<a href="${escapeHTML(user.html_url)}?tab=followers">${user.followers} takipçi</a> · ` +
+        `<a href="${escapeHTML(user.html_url)}?tab=following">${user.following} takip</a> · ` +
+        `${user.public_repos} depo`;
+
+      document.title = `${user.name || user.login} (@${user.login}) · GitHub`;
+
+      state.user = user;
+      renderDetails();
+    }
+
+    /* ---- README (gerçek Markdown) ---- */
+    function absolutize(root, base) {
+      const fix = (el, attr, prefix) => {
+        const value = el.getAttribute(attr);
+        if (!value || /^(?:[a-z][a-z0-9+.-]*:|\/\/|#)/i.test(value)) return;
+        el.setAttribute(attr, new URL(value, prefix).href);
+      };
+      root.querySelectorAll("img[src], source[src]").forEach(el => fix(el, "src", base.raw));
+      root.querySelectorAll("a[href]").forEach(el => {
+        fix(el, "href", base.blob);
+        if (/^https?:/i.test(el.getAttribute("href")) && !el.getAttribute("href").startsWith("#")) {
+          el.setAttribute("target", "_blank");
+          el.setAttribute("rel", "noopener noreferrer");
+        }
+      });
+    }
+
+    function renderMarkdown(markdown, base) {
+      const target = $("readme-content");
+
+      if (window.marked && window.DOMPurify) {
+        const html = DOMPurify.sanitize(marked.parse(markdown, { gfm: true, breaks: false }), {
+          USE_PROFILES: { html: true }
+        });
+        const tpl = document.createElement("template");
+        tpl.innerHTML = html;
+        absolutize(tpl.content, base);
+        target.replaceChildren(tpl.content);
+      } else {
+        // Kütüphaneler yüklenemezse düz metin göster.
+        const pre = document.createElement("pre");
+        pre.textContent = markdown;
+        target.replaceChildren(pre);
+      }
+    }
+
+    async function loadReadme() {
+      try {
+        const data = await fetchJSON(`${API}/repos/${USER}/${USER}/readme`);
+        const bytes = Uint8Array.from(atob(data.content.replace(/\s/g, "")), c => c.charCodeAt(0));
+        const markdown = new TextDecoder().decode(bytes);
+
+        // Göreli bağlantı ve görseller için taban adresler
+        const dir = data.path.includes("/") ? data.path.replace(/[^/]+$/, "") : "";
+        const ref = new URL(data.html_url).pathname.split("/")[4] || "HEAD";
+        const base = {
+          raw: `https://raw.githubusercontent.com/${USER}/${USER}/${ref}/${dir}`,
+          blob: `https://github.com/${USER}/${USER}/blob/${ref}/${dir}`
+        };
+
+        renderMarkdown(markdown, base);
+        $("readme-path").textContent = data.name;
+        $("readme-edit").href = data.html_url;
+        $("readme").hidden = false;
+      } catch {
+        // Profil README'si isteğe bağlıdır; yoksa bölüm gizli kalır.
+        document.querySelector('nav a[href="#readme"]').hidden = true;
+      }
+    }
+
+    /* ---- Depolar ---- */
+    const relativeDate = date => {
+      const days = Math.round((date - Date.now()) / 864e5);
+      const rtf = new Intl.RelativeTimeFormat("tr", { numeric: "auto" });
+      if (Math.abs(days) < 30) return rtf.format(days, "day");
+      if (Math.abs(days) < 365) return rtf.format(Math.round(days / 30), "month");
+      return rtf.format(Math.round(days / 365), "year");
+    };
+
+    function filteredRepos() {
+      const q = $("q").value.trim().toLowerCase();
+      const lang = $("lang").value;
+      const sort = $("sort").value;
+
+      return state.repos
+        .filter(r => (!lang || r.language === lang) &&
+          (!q || `${r.name} ${r.description || ""} ${(r.topics || []).join(" ")}`.toLowerCase().includes(q)))
+        .sort((a, b) => {
+          if (sort === "name") return a.name.localeCompare(b.name);
+          if (sort === "updated") return new Date(b.pushed_at) - new Date(a.pushed_at);
+          if (sort === "created") return new Date(b.created_at) - new Date(a.created_at);
+          return b.stargazers_count - a.stargazers_count || new Date(b.pushed_at) - new Date(a.pushed_at);
+        });
+    }
+
+    function renderRepositories() {
+      const list = $("repo-list");
+      const all = filteredRepos();
+      const visible = all.slice(0, state.shown);
+
+      $("count").textContent = all.length ? `(${all.length})` : "";
+      $("more").hidden = all.length <= state.shown;
+
+      if (!visible.length) {
+        list.className = "status";
+        list.textContent = state.repos.length
+          ? "Filtreyle eşleşen depo yok."
+          : "Herkese açık depo bulunamadı.";
+        return;
+      }
+
+      list.className = "";
+      list.innerHTML = visible.map(repo => `
+        <article class="repo">
+          <a class="repo-name" href="${escapeHTML(repo.html_url)}">${escapeHTML(repo.name)}</a>
+          <span class="label">${repo.archived ? "Arşivlendi" : repo.fork ? "Fork" : "Herkese açık"}</span>
+
+          ${repo.description ? `<p class="description">${escapeHTML(repo.description)}</p>` : ""}
+
+          ${repo.topics && repo.topics.length ? `
+            <div class="topics">${repo.topics.slice(0, 6).map(t => `<span>${escapeHTML(t)}</span>`).join("")}</div>` : ""}
+
+          <div class="meta">
+            ${repo.language ? `<span><i class="dot" style="background:${COLORS[repo.language] || "var(--muted)"}"></i>${escapeHTML(repo.language)}</span>` : ""}
+            <span>☆ ${repo.stargazers_count}</span>
+            ${repo.forks_count ? `<span>⑂ ${repo.forks_count}</span>` : ""}
+            ${repo.license && repo.license.spdx_id && repo.license.spdx_id !== "NOASSERTION" ? `<span>${escapeHTML(repo.license.spdx_id)}</span>` : ""}
+            ${repo.homepage ? `<a href="${escapeHTML(/^https?:\/\//i.test(repo.homepage) ? repo.homepage : "https://" + repo.homepage)}" rel="noopener noreferrer">Site</a>` : ""}
+            <span title="${escapeHTML(new Date(repo.pushed_at).toLocaleString("tr-TR"))}">Güncellendi ${relativeDate(new Date(repo.pushed_at))}</span>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    function setupToolbar() {
+      const languages = [...new Set(state.repos.map(r => r.language).filter(Boolean))].sort();
+      $("lang").innerHTML = `<option value="">Tüm diller</option>` +
+        languages.map(l => `<option>${escapeHTML(l)}</option>`).join("");
+
+      const update = () => { state.shown = PAGE; renderRepositories(); };
+      ["q", "lang", "sort"].forEach(id => $(id).addEventListener("input", update));
+      $("more").addEventListener("click", () => { state.shown += PAGE; renderRepositories(); });
+      $("toolbar").hidden = false;
+    }
+
+    async function loadRepositories() {
+      try {
+        let page = 1, batch;
+        do {
+          batch = await fetchJSON(`${API}/users/${USER}/repos?type=owner&sort=updated&per_page=100&page=${page++}`);
+          state.repos.push(...batch);
+        } while (batch.length === 100 && page <= 5);
+
+        setupToolbar();
+        renderRepositories();
+      } catch (error) {
+        const list = $("repo-list");
+        list.className = "status";
+        list.textContent = errorText(error, "Depolar yüklenemedi. GitHub'ı doğrudan ziyaret edin.");
+        console.error(error);
+      }
+    }
+
+    /* ---- Menüde aktif bölüm ---- */
+    function trackNav() {
+      const links = [...document.querySelectorAll("nav a")];
+      const sections = ["overview", "readme", "repositories"].map(id => $(id));
+      const onScroll = () => {
+        let current = "overview";
+        sections.forEach(s => {
+          if (!s.hidden && s.getBoundingClientRect().top < 120) current = s.id;
+        });
+        links.forEach(a => a.setAttribute("aria-current", a.getAttribute("href") === "#" + current));
+      };
+      addEventListener("scroll", onScroll, { passive: true });
+    }
+
+    async function init() {
+      trackNav();
+
+      const profile = fetchJSON(`${API}/users/${USER}`)
+        .then(renderProfile)
+        .catch(error => {
+          $("bio").textContent = errorText(error, "GitHub profili yüklenemedi.");
+          console.error(error);
+        });
+
+      // Sosyal hesaplar ve kurumlar da paralel yüklenir; hata olursa sessizce atlanır.
+      const extras = Promise.all([
+        fetchJSON(`${API}/users/${USER}/social_accounts`)
+          .then(list => { state.socials = list; renderDetails(); }).catch(() => {}),
+        fetchJSON(`${API}/users/${USER}/orgs`).then(renderOrgs).catch(() => {})
+      ]);
+
+      await Promise.all([profile, extras, loadReadme(), loadRepositories()]);
+    }
+
+    init();
+  </script>
 </body>
 </html>
