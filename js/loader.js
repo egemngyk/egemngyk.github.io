@@ -14,6 +14,19 @@ export function startLoader() {
   timer = setInterval(() => set(value + (88 - value) * 0.08), 200);
 }
 
+// Sayfa içi geçişlerde çubuğu baştan başlatır.
+export function restartLoader() {
+  clearInterval(timer);
+  value = 0;
+  const bar = $("loadbar");
+  bar.style.transition = "none";
+  bar.classList.remove("done");
+  bar.style.transform = "scaleX(0)";
+  void bar.offsetWidth;
+  bar.style.transition = "";
+  startLoader();
+}
+
 export function progress(done, total) {
   set(90 * done / total);
 }

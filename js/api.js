@@ -9,7 +9,10 @@ const cache = {
     } catch { return null; }
   },
   set(key, v) {
-    try { localStorage.setItem("gh:" + key, JSON.stringify({ t: Date.now(), v })); } catch {}
+    try {
+      const text = JSON.stringify({ t: Date.now(), v });
+      if (text.length < 200000) localStorage.setItem("gh:" + key, text);   // büyük dosyalar önbelleğe alınmaz
+    } catch {}
   }
 };
 

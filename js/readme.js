@@ -39,11 +39,16 @@ export function renderMarkdown(target, markdown, base) {
   }
 }
 
+// GitHub'ın base64 içeriğini metne çevirir (fatal: geçersiz UTF-8'de hata verir).
+export function decodeBase64(content, fatal = false) {
+  const bytes = Uint8Array.from(atob(content.replace(/\s/g, "")), c => c.charCodeAt(0));
+  return new TextDecoder("utf-8", { fatal }).decode(bytes);
+}
+
 // Bir deponun README'sini getirir (profil README'si için repo = USER).
 export async function fetchReadme(repo) {
   const data = await fetchJSON(`/repos/${USER}/${repo}/readme`);
-  const bytes = Uint8Array.from(atob(data.content.replace(/\s/g, "")), c => c.charCodeAt(0));
-  const markdown = new TextDecoder().decode(bytes);
+  const markdown = decodeBase64(data.content);
 
   const dir = data.path.includes("/") ? data.path.replace(/[^/]+$/, "") : "";
   const ref = new URL(data.html_url).pathname.split("/")[4] || "HEAD";

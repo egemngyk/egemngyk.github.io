@@ -1,7 +1,6 @@
 import { loadProfile } from "./profile.js";
 import { loadReadme } from "./readme.js";
 import { loadRepositories } from "./repos.js";
-import { initRepoDialog, openFromHash } from "./repo-dialog.js";
 import { startLoader, progress, finishLoader } from "./loader.js";
 import { trackNav } from "./nav.js";
 import { $ } from "./utils.js";
@@ -18,7 +17,6 @@ async function waitForAvatar() {
 
 startLoader();
 trackNav();
-initRepoDialog();
 
 try {
   // Profil, README ve depolar paralel yüklenir; hepsi bitince sayfa tek seferde açılır.
@@ -30,5 +28,4 @@ try {
   await waitForAvatar();
 } finally {
   await finishLoader();
-  openFromHash();
 }

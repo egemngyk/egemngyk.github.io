@@ -24,3 +24,18 @@ export function relativeDate(date) {
   if (Math.abs(days) < 365) return rtf.format(Math.round(days / 30), "month");
   return rtf.format(Math.round(days / 365), "year");
 }
+
+export const formatBytes = n =>
+  n >= 1048576 ? `${(n / 1048576).toFixed(1)} MB` : n >= 1024 ? `${Math.round(n / 1024)} KB` : `${n} B`;
+
+export const formatDate = d =>
+  new Date(d).toLocaleDateString("tr-TR", { year: "numeric", month: "long", day: "numeric" });
+
+// Düğmenin yazısını kısa süre "Kopyalandı" yapar.
+export function copyText(button, text) {
+  const label = button.dataset.label ||= button.textContent;
+  return navigator.clipboard.writeText(text).then(() => {
+    button.textContent = "Kopyalandı";
+    setTimeout(() => { button.textContent = label; }, 1500);
+  }).catch(() => {});
+}

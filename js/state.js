@@ -3,7 +3,7 @@ import { PAGE } from "./config.js";
 const VIEW_KEY = "view";
 
 export function readView() {
-  try { return localStorage.getItem(VIEW_KEY) === "grid" ? "grid" : "list"; } catch { return "list"; }
+  try { return localStorage.getItem(VIEW_KEY) === "list" ? "list" : "grid"; } catch { return "grid"; }
 }
 export function saveView(view) {
   try { localStorage.setItem(VIEW_KEY, view); } catch {}
@@ -15,5 +15,5 @@ export const state = {
   socials: [],
   repos: [],
   shown: PAGE,
-  view: readView()   // "list" | "grid" (tarayıcıda hatırlanır)
+  view: readView()   // "grid" (varsayılan) | "list" — tarayıcıda hatırlanır
 };

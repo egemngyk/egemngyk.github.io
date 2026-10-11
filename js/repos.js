@@ -2,7 +2,6 @@ import { USER, PAGE, LANGUAGE_COLORS } from "./config.js";
 import { state, saveView } from "./state.js";
 import { fetchJSON, errorText } from "./api.js";
 import { icon } from "./icons.js";
-import { openRepo } from "./repo-dialog.js";
 import { $, escapeHTML, relativeDate } from "./utils.js";
 
 function filteredRepos() {
@@ -33,7 +32,7 @@ function repoCard(repo, delay) {
   return `
     <article class="repo${delay === null ? "" : " enter"}" data-repo="${escapeHTML(repo.name)}"${delay === null ? "" : ` style="--i:${delay}"`}>
       <div>
-        <a class="repo-name" href="${escapeHTML(repo.html_url)}">${escapeHTML(repo.name)}</a>
+        <a class="repo-name" href="repo.html?repo=${encodeURIComponent(repo.name)}">${escapeHTML(repo.name)}</a>
         <span class="label">${repo.archived ? "Arşivlendi" : repo.fork ? "Fork" : "Herkese açık"}</span>
       </div>
 
@@ -78,7 +77,7 @@ function renderRepositories({ from = Infinity, base = 0 } = {}) {
 }
 
 function renderViewToggle() {
-  $("view").innerHTML = [["list", "Liste"], ["grid", "Grid"]].map(([view, label]) =>
+  $("view").innerHTML = [["grid", "Grid"], ["list", "Liste"]].map(([view, label]) =>
     `<button type="button" data-view="${view}" aria-pressed="${state.view === view}" title="${label} görünümü">` +
     `${icon(view)}<span>${label}</span></button>`
   ).join("");
@@ -111,14 +110,13 @@ function setupToolbar() {
     if (button && button.dataset.view !== state.view) setView(button.dataset.view);
   });
 
-  // Karta tıklayınca depo detayı sayfa içinde açılır (Ctrl/Cmd+tık GitHub'a gider).
+  // Kartın herhangi bir yerine tıklamak depo sayfasını açar (Ctrl/Cmd+tık yeni sekmede).
   $("repo-list").addEventListener("click", e => {
     const card = e.target.closest(".repo");
-    const link = e.target.closest("a");
-    if (!card || (link && !link.classList.contains("repo-name"))) return;
-    if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-    e.preventDefault();
-    openRepo(card.dataset.repo);
+    if (!card || e.target.closest("a")) return;   // bağlantılar kendi işini yapar
+    const href = card.querySelector(".repo-name").href;
+    if (e.metaKey || e.ctrlKey) window.open(href, "_blank", "noopener");
+    else location.href = href;
   });
 
   $("toolbar").hidden = false;
