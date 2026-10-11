@@ -1,6 +1,6 @@
 # egemngyk · GitHub profil sayfası
 
-GitHub profilini, profil README'ni ve depolarını tek bir sade sayfada gösteren, **tek dosyalık** statik bir site. Derleme adımı, bağımlılık kurulumu veya sunucu gerektirmez; veriler tarayıcıdan doğrudan GitHub API'sinden çekilir.
+GitHub profilini, profil README'ni ve depolarını tek bir sade sayfada gösteren, **modüler** statik bir site (saf HTML, CSS ve ES modülleri). Derleme adımı veya bağımlılık kurulumu gerektirmez; veriler tarayıcıdan doğrudan GitHub API'sinden çekilir.
 
 ## Özellikler
 
@@ -15,24 +15,33 @@ GitHub profilini, profil README'ni ve depolarını tek bir sade sayfada göstere
 ## Kurulum
 
 1. Bu depoyu fork'la veya klonla.
-2. `index.html` dosyasını depo kökünde tut.
+2. `index.html`, `css/` ve `js/` klasörlerini depo kökünde tut.
 3. GitHub'da **Settings → Pages** bölümünden dalı (`main`) ve kök klasörü seç.
 4. Sayfa `https://kullanici.github.io/depo-adi/` adresinde yayına girer.
 
-Yerelde denemek için dosyayı tarayıcıda açman yeterli.
+### Yerelde çalıştırma
+
+Tarayıcılar ES modüllerini `file://` ile yüklemez, bu yüzden küçük bir yerel sunucu kullan:
+
+```bash
+python3 -m http.server 8000
+# ardından http://localhost:8000 adresini aç
+```
 
 ## Ayarlar
 
-`index.html` içindeki `<script>` bölümünün başında iki sabit var:
+Tüm ayarlar `js/config.js` içinde:
 
 ```js
-const USER = "egemngyk";            // Gösterilecek GitHub kullanıcı adı
-const TIMEZONE = "Europe/Istanbul"; // Yerel saat için IANA saat dilimi ("" = gizle)
+export const USER = "egemngyk";            // Gösterilecek GitHub kullanıcı adı
+export const TIMEZONE = "Europe/Istanbul"; // Yerel saat için IANA saat dilimi ("" = gizle)
+export const PAGE = 10;                    // Bir seferde gösterilecek depo sayısı
+export const CACHE_TTL = 10 * 60 * 1000;   // Önbellek süresi (ms)
 ```
 
 > GitHub API, profildeki saat dilimini herkese açık olarak sunmaz. Bu yüzden yerel saat `TIMEZONE` sabitinden hesaplanır.
 
-Sayfanın alt kısmındaki `egemngyk` imzası bilerek sabittir; `USER` değişse bile değişmez.
+Sayfanın alt kısmındaki `egemngyk` imzası `index.html` içinde bilerek sabittir; `USER` değişse bile değişmez.
 
 ## Nasıl çalışır?
 
@@ -55,7 +64,25 @@ Sayfanın alt kısmındaki `egemngyk` imzası bilerek sabittir; `USER` değişse
 
 ```text
 .
-├── index.html   # Sayfanın tamamı (HTML, CSS ve JS)
+├── index.html          # Sayfa iskeleti
+├── css/
+│   ├── base.css        # Değişkenler, sıfırlama, temel öğeler
+│   ├── layout.css      # Üst bar, gezinme, ana yerleşim, alt bilgi
+│   ├── profile.css     # Profil kartı, detay listesi, kurumlar
+│   ├── readme.css      # README kartı ve Markdown içeriği
+│   ├── repos.css       # Araç çubuğu ve depo kartları
+│   └── responsive.css  # Mobil düzen
+├── js/
+│   ├── main.js         # Giriş noktası
+│   ├── config.js       # Ayarlar
+│   ├── state.js        # Paylaşılan durum
+│   ├── api.js          # GitHub API istekleri ve önbellek
+│   ├── utils.js        # Yardımcı fonksiyonlar
+│   ├── icons.js        # SVG ikonlar
+│   ├── profile.js      # Profil, sosyal hesaplar, saat, kurumlar
+│   ├── readme.js       # Markdown README
+│   ├── repos.js        # Depo listesi, arama, filtre, sıralama
+│   └── nav.js          # Menüde aktif bölüm takibi
 └── README.md
 ```
 

@@ -1,0 +1,31 @@
+/* Sol sütun: profil kartı, detay listesi, kurumlar */
+
+.avatar {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  object-fit: cover;
+  background: var(--surface);
+}
+
+h1 { margin: 16px 0 0; font-size: 25px; line-height: 1.3; overflow-wrap: anywhere; }
+.username { color: var(--muted); font-size: 19px; font-weight: 300; }
+.bio { margin: 16px 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+
+.button {
+  display: block;
+  text-align: center;
+  padding: 7px 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  font-weight: 600;
+}
+.stats { margin: 14px 0; color: var(--muted); }
+.details { padding: 0; margin: 18px 0; list-style: none; color: var(--muted); }
+.details li { display: flex; align-items: flex-start; gap: 8px; margin: 8px 0; overflow-wrap: anywhere; }
+.details svg { flex: none; margin-top: 3px; }
+.details a { color: var(--text); }
+.orgs { display: flex; flex-wrap: wrap; gap: 6px; margin: 14px 0; }
+.orgs img { display: block; width: 32px; height: 32px; border-radius: 6px; border: 1px solid var(--border); }
