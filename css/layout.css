@@ -26,6 +26,27 @@ nav {
   z-index: 5;
 }
 nav a { padding: 12px 2px; color: var(--muted); border-bottom: 2px solid transparent; }
+.nav-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  align-self: center;
+  min-width: 0;
+  max-width: 45%;
+  margin-left: auto;
+  padding: 3px 12px;
+  color: var(--muted);
+  font-size: 13px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+}
+.nav-status .emoji { flex: none; font-size: 15px; line-height: 1; }
+.nav-status .text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@media (max-width: 480px) {
+  .nav-status .text { display: none; }   /* Dar ekranda sadece emoji (üzerine gelince yazı ipucu olarak çıkar) */
+}
+
 nav a[aria-current="true"] { color: var(--text); border-bottom-color: var(--text); font-weight: 600; }
 
 .layout { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 32px; }

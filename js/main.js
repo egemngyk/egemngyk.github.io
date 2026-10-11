@@ -3,6 +3,7 @@ import { loadReadme } from "./readme.js";
 import { loadRepositories } from "./repos.js";
 import { startLoader, progress, finishLoader } from "./loader.js";
 import { trackNav } from "./nav.js";
+import { renderStatus } from "./status.js";
 import { $ } from "./utils.js";
 
 // Avatar yüklenmeden sayfa açılmasın (en fazla 1,5 sn beklenir).
@@ -17,6 +18,7 @@ async function waitForAvatar() {
 
 startLoader();
 trackNav();
+renderStatus();
 
 try {
   // Profil, README ve depolar paralel yüklenir; hepsi bitince sayfa tek seferde açılır.

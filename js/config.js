@@ -2,6 +2,11 @@
 
 export const USER = "egemngyk";
 
+// GitHub durumu (profil fotoğrafının yanındaki emoji + yazı). Menüde sağda görünür.
+// GitHub API bu bilgiyi herkese açık vermez, bu yüzden buradan elle girilir.
+// ÖRNEK DEĞER: kendi durumunu yaz. Emoji ve yazıyı boş bırakırsan gizlenir.
+export const STATUS = { emoji: "👋", text: "Merhaba!" };
+
 // GitHub API saat dilimini vermez; yerel saat için IANA adı yaz ("" = gizle).
 export const TIMEZONE = "Europe/Istanbul";
 
