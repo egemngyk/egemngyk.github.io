@@ -1,24 +1,40 @@
 import { STATUS } from "./config.js";
 import { $ } from "./utils.js";
 
-// GitHub'daki durum (emoji + yazı) menünün sağında gösterilir.
-export function renderStatus() {
-  const el = $("status");
-  if (!el || !STATUS || !(STATUS.emoji || STATUS.text)) return;
+// Durumu data/status.json'dan okur (GitHub Actions her saat günceller).
+// Dosya yoksa veya okunamazsa config.js'teki STATUS yedek olarak kullanılır.
+async function readStatus() {
+  try {
+    const response = await fetch("data/status.json", { cache: "no-cache" });
+    if (!response.ok) throw new Error(`status.json: ${response.status}`);
 
-  if (STATUS.emoji) {
+    const data = await response.json();
+    if (data.expiresAt && new Date(data.expiresAt) < new Date()) return null;   // Süresi dolmuş
+    return { emoji: data.emoji || "", text: data.text || "" };
+  } catch {
+    return STATUS;
+  }
+}
+
+// GitHub'daki durum (emoji + yazı) menünün sağında gösterilir.
+export async function loadStatus() {
+  const el = $("status");
+  const status = await readStatus();
+  if (!el || !status || !(status.emoji || status.text)) return;
+
+  if (status.emoji) {
     const emoji = document.createElement("span");
     emoji.className = "emoji";
-    emoji.textContent = STATUS.emoji;
+    emoji.textContent = status.emoji;
     el.append(emoji);
   }
-  if (STATUS.text) {
+  if (status.text) {
     const text = document.createElement("span");
     text.className = "text";
-    text.textContent = STATUS.text;
+    text.textContent = status.text;
     el.append(text);
   }
 
-  el.title = [STATUS.emoji, STATUS.text].filter(Boolean).join(" ");
+  el.title = [status.emoji, status.text].filter(Boolean).join(" ");
   el.hidden = false;
 }
