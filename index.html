@@ -1,21 +1,36 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="tr" class="loading">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
   <meta name="description" content="egemngyk GitHub profili: README, depolar ve projeler.">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)">
   <title>egemngyk · GitHub</title>
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon.ico" sizes="48x48">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/profile.css">
   <link rel="stylesheet" href="css/readme.css">
   <link rel="stylesheet" href="css/repos.css">
+  <link rel="stylesheet" href="css/motion.css">
+  <link rel="stylesheet" href="css/dialog.css">
   <link rel="stylesheet" href="css/responsive.css">
+
+  <!-- JS çalışmazsa veya geç kalırsa içerik yine de açılır -->
+  <noscript><style>html.loading main { opacity: 1; }</style></noscript>
+  <script>setTimeout(function () { document.documentElement.classList.remove("loading"); }, 10000);</script>
 </head>
 
 <body>
+  <div class="loadbar" id="loadbar" role="progressbar" aria-label="Sayfa yükleniyor"></div>
+  <div class="page-loader" aria-hidden="true"><span class="spinner"></span></div>
+
   <header>
     <a class="mark" href="https://github.com" aria-label="GitHub">⌘</a>
     <strong>GitHub</strong>
@@ -66,6 +81,7 @@
               <option value="created">En yeni</option>
               <option value="name">Ada göre</option>
             </select>
+            <div class="view-toggle" id="view" role="group" aria-label="Görünüm"></div>
           </div>
 
           <div id="repo-list" class="status" aria-live="polite">
@@ -81,6 +97,14 @@
       <a href="https://github.com">GitHub</a> · Minimal profil · <a href="https://github.com/egemngyk" rel="noopener noreferrer">egemngyk</a>
     </footer>
   </main>
+
+  <dialog class="repo-dialog" id="repo-dialog" aria-labelledby="rd-title">
+    <div class="rd-head">
+      <div><strong class="rd-title" id="rd-title"></strong><span class="label" id="rd-label"></span></div>
+      <button class="rd-close" id="rd-close" type="button" aria-label="Kapat"></button>
+    </div>
+    <div class="rd-body" id="rd-body"></div>
+  </dialog>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>

@@ -9,6 +9,11 @@ GitHub profilini, profil README'ni ve depolarını tek bir sade sayfada göstere
 - **Zengin profil bilgisi:** Şirket, konum, yerel saat, web sitesi, e-posta, katılım tarihi, kurumlar ve profilde eklediğin sosyal hesaplar (Instagram, X, LinkedIn, YouTube ve diğerleri).
 - **Temiz bağlantılar:** Uzun adresler `site.com/yol` biçiminde, sosyal hesaplar ikon ve `@kullanici` olarak görünür.
 - **Depolar:** Arama, dile göre filtre, sıralama (yıldız, güncelleme, en yeni, ada göre), konu etiketleri, dil rengi, fork sayısı, lisans ve göreli tarih. Fork'lar da listelenir.
+- **Yükleme ekranı:** Üstte ince bir ilerleme çubuğu çıkar; profil, README ve depolar hazır olunca sayfa parça parça düşmek yerine tek seferde, sırayla yükselen bölümlerle açılır.
+- **Liste / Grid:** Depolar iki görünümde izlenebilir; seçimin tarayıcıda hatırlanır.
+- **Sayfa içi depo detayı:** Bir depo kartına tıklayınca site içinde pencere açılır: istatistikler, konu etiketleri, `git clone` komutu (kopyala butonuyla) ve deponun README'si. Ctrl/Cmd+tık GitHub'a götürür. Adres `#repo-depo-adi` olur ve paylaşılabilir.
+- **Minimal animasyonlar:** Açılış, kart ve geçiş animasyonları; sistem "hareketi azalt" ayarına saygı duyar.
+- **Favicon:** SVG, ICO ve Apple dokunma simgesi.
 - **Hızlı:** Yanıtlar 10 dakika tarayıcıda önbelleğe alınır; profil, README ve depolar paralel yüklenir.
 - **Uyumlu:** Mobil düzen, sistem temasını (açık/koyu) izleme, klavye odağı ve azaltılmış hareket desteği.
 
@@ -65,12 +70,15 @@ Sayfanın alt kısmındaki `egemngyk` imzası `index.html` içinde bilerek sabit
 ```text
 .
 ├── index.html          # Sayfa iskeleti
+├── favicon.svg / favicon.ico / apple-touch-icon.png
 ├── css/
 │   ├── base.css        # Değişkenler, sıfırlama, temel öğeler
 │   ├── layout.css      # Üst bar, gezinme, ana yerleşim, alt bilgi
 │   ├── profile.css     # Profil kartı, detay listesi, kurumlar
 │   ├── readme.css      # README kartı ve Markdown içeriği
-│   ├── repos.css       # Araç çubuğu ve depo kartları
+│   ├── repos.css       # Araç çubuğu, liste/grid ve depo kartları
+│   ├── motion.css      # Yükleme çubuğu, animasyonlar, geçişler
+│   ├── dialog.css      # Depo detay penceresi
 │   └── responsive.css  # Mobil düzen
 ├── js/
 │   ├── main.js         # Giriş noktası
@@ -81,7 +89,9 @@ Sayfanın alt kısmındaki `egemngyk` imzası `index.html` içinde bilerek sabit
 │   ├── icons.js        # SVG ikonlar
 │   ├── profile.js      # Profil, sosyal hesaplar, saat, kurumlar
 │   ├── readme.js       # Markdown README
-│   ├── repos.js        # Depo listesi, arama, filtre, sıralama
+│   ├── repos.js        # Depo listesi, arama, filtre, sıralama, liste/grid
+│   ├── repo-dialog.js  # Sayfa içi depo detayı
+│   ├── loader.js       # Yükleme çubuğu
 │   └── nav.js          # Menüde aktif bölüm takibi
 └── README.md
 ```

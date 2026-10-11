@@ -21,9 +21,8 @@ function absolutize(root, base) {
   });
 }
 
-function renderMarkdown(markdown, base) {
-  const target = $("readme-content");
-
+// Markdown'ı temizleyip hedef öğeye yazar.
+export function renderMarkdown(target, markdown, base) {
   if (window.marked && window.DOMPurify) {
     const html = DOMPurify.sanitize(marked.parse(markdown, { gfm: true, breaks: false }), {
       USE_PROFILES: { html: true }
@@ -40,22 +39,32 @@ function renderMarkdown(markdown, base) {
   }
 }
 
+// Bir deponun README'sini getirir (profil README'si için repo = USER).
+export async function fetchReadme(repo) {
+  const data = await fetchJSON(`/repos/${USER}/${repo}/readme`);
+  const bytes = Uint8Array.from(atob(data.content.replace(/\s/g, "")), c => c.charCodeAt(0));
+  const markdown = new TextDecoder().decode(bytes);
+
+  const dir = data.path.includes("/") ? data.path.replace(/[^/]+$/, "") : "";
+  const ref = new URL(data.html_url).pathname.split("/")[4] || "HEAD";
+
+  return {
+    markdown,
+    name: data.name,
+    url: data.html_url,
+    base: {
+      raw: `https://raw.githubusercontent.com/${USER}/${repo}/${ref}/${dir}`,
+      blob: `https://github.com/${USER}/${repo}/blob/${ref}/${dir}`
+    }
+  };
+}
+
 export async function loadReadme() {
   try {
-    const data = await fetchJSON(`/repos/${USER}/${USER}/readme`);
-    const bytes = Uint8Array.from(atob(data.content.replace(/\s/g, "")), c => c.charCodeAt(0));
-    const markdown = new TextDecoder().decode(bytes);
-
-    const dir = data.path.includes("/") ? data.path.replace(/[^/]+$/, "") : "";
-    const ref = new URL(data.html_url).pathname.split("/")[4] || "HEAD";
-    const base = {
-      raw: `https://raw.githubusercontent.com/${USER}/${USER}/${ref}/${dir}`,
-      blob: `https://github.com/${USER}/${USER}/blob/${ref}/${dir}`
-    };
-
-    renderMarkdown(markdown, base);
-    $("readme-path").textContent = data.name;
-    $("readme-edit").href = data.html_url;
+    const readme = await fetchReadme(USER);
+    renderMarkdown($("readme-content"), readme.markdown, readme.base);
+    $("readme-path").textContent = readme.name;
+    $("readme-edit").href = readme.url;
     $("readme").hidden = false;
   } catch {
     // Profil README'si isteğe bağlıdır; yoksa bölüm ve menü bağlantısı gizlenir.

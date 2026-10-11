@@ -1,6 +1,8 @@
 import { USER, PAGE, LANGUAGE_COLORS } from "./config.js";
-import { state } from "./state.js";
+import { state, saveView } from "./state.js";
 import { fetchJSON, errorText } from "./api.js";
+import { icon } from "./icons.js";
+import { openRepo } from "./repo-dialog.js";
 import { $, escapeHTML, relativeDate } from "./utils.js";
 
 function filteredRepos() {
@@ -19,7 +21,8 @@ function filteredRepos() {
     });
 }
 
-function repoCard(repo) {
+// delay: null ise animasyon yok, sayı ise kart sırayla belirir.
+function repoCard(repo, delay) {
   const homepage = repo.homepage
     ? `<a href="${escapeHTML(/^https?:\/\//i.test(repo.homepage) ? repo.homepage : "https://" + repo.homepage)}" rel="noopener noreferrer">Site</a>`
     : "";
@@ -28,9 +31,11 @@ function repoCard(repo) {
     : "";
 
   return `
-    <article class="repo">
-      <a class="repo-name" href="${escapeHTML(repo.html_url)}">${escapeHTML(repo.name)}</a>
-      <span class="label">${repo.archived ? "Arşivlendi" : repo.fork ? "Fork" : "Herkese açık"}</span>
+    <article class="repo${delay === null ? "" : " enter"}" data-repo="${escapeHTML(repo.name)}"${delay === null ? "" : ` style="--i:${delay}"`}>
+      <div>
+        <a class="repo-name" href="${escapeHTML(repo.html_url)}">${escapeHTML(repo.name)}</a>
+        <span class="label">${repo.archived ? "Arşivlendi" : repo.fork ? "Fork" : "Herkese açık"}</span>
+      </div>
 
       ${repo.description ? `<p class="description">${escapeHTML(repo.description)}</p>` : ""}
 
@@ -48,7 +53,9 @@ function repoCard(repo) {
     </article>`;
 }
 
-function renderRepositories() {
+// from: bu sıradan itibaren kartlar animasyonla gelir (varsayılan: hiçbiri).
+// base: animasyon gecikmesine eklenecek başlangıç sırası.
+function renderRepositories({ from = Infinity, base = 0 } = {}) {
   const list = $("repo-list");
   const all = filteredRepos();
   const visible = all.slice(0, state.shown);
@@ -64,8 +71,24 @@ function renderRepositories() {
     return;
   }
 
-  list.className = "";
-  list.innerHTML = visible.map(repoCard).join("");
+  list.className = "repos" + (state.view === "grid" ? " is-grid" : "");
+  list.innerHTML = visible
+    .map((repo, i) => repoCard(repo, i >= from ? Math.min(i - from, 10) + base : null))
+    .join("");
+}
+
+function renderViewToggle() {
+  $("view").innerHTML = [["list", "Liste"], ["grid", "Grid"]].map(([view, label]) =>
+    `<button type="button" data-view="${view}" aria-pressed="${state.view === view}" title="${label} görünümü">` +
+    `${icon(view)}<span>${label}</span></button>`
+  ).join("");
+}
+
+function setView(view) {
+  state.view = view;
+  saveView(view);
+  renderViewToggle();
+  renderRepositories({ from: 0 });
 }
 
 function setupToolbar() {
@@ -75,7 +98,29 @@ function setupToolbar() {
 
   const update = () => { state.shown = PAGE; renderRepositories(); };
   ["q", "lang", "sort"].forEach(id => $(id).addEventListener("input", update));
-  $("more").addEventListener("click", () => { state.shown += PAGE; renderRepositories(); });
+
+  $("more").addEventListener("click", () => {
+    const from = state.shown;
+    state.shown += PAGE;
+    renderRepositories({ from });
+  });
+
+  renderViewToggle();
+  $("view").addEventListener("click", e => {
+    const button = e.target.closest("button");
+    if (button && button.dataset.view !== state.view) setView(button.dataset.view);
+  });
+
+  // Karta tıklayınca depo detayı sayfa içinde açılır (Ctrl/Cmd+tık GitHub'a gider).
+  $("repo-list").addEventListener("click", e => {
+    const card = e.target.closest(".repo");
+    const link = e.target.closest("a");
+    if (!card || (link && !link.classList.contains("repo-name"))) return;
+    if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    e.preventDefault();
+    openRepo(card.dataset.repo);
+  });
+
   $("toolbar").hidden = false;
 }
 
@@ -88,7 +133,7 @@ export async function loadRepositories() {
     } while (batch.length === 100 && page <= 5);
 
     setupToolbar();
-    renderRepositories();
+    renderRepositories({ from: 0, base: 6 });
   } catch (error) {
     const list = $("repo-list");
     list.className = "status";

@@ -54,3 +54,48 @@
   border-radius: 4px;
   background: var(--surface);
 }
+
+/* Görünüm değiştirici (liste / grid) */
+.view-toggle {
+  display: inline-flex;
+  margin-left: auto;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.view-toggle button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font: inherit;
+  color: var(--muted);
+  background: var(--bg);
+  border: 0;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+.view-toggle button + button { border-left: 1px solid var(--border); }
+.view-toggle button:hover { color: var(--text); }
+.view-toggle button[aria-pressed="true"] { color: var(--text); background: var(--surface); font-weight: 600; }
+
+/* Kartlar tıklanınca sayfa içinde açılır */
+.repo { cursor: pointer; }
+.repo:hover .repo-name { text-decoration: underline; }
+
+/* Grid görünümü */
+.repos.is-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
+}
+.repos.is-grid .repo,
+.repos.is-grid .repo:first-child {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+.repos.is-grid .repo:hover { border-color: var(--muted); transform: translateY(-2px); }
+.repos.is-grid .meta { margin-top: auto; }
+.repos.is-grid .description { margin-bottom: 12px; }

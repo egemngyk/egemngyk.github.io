@@ -9,7 +9,9 @@ const PATHS = {
   instagram: `<rect x="2.5" y="2.5" width="11" height="11" rx="3.5"/><circle cx="8" cy="8" r="2.5"/><circle cx="11.2" cy="4.8" r=".4"/>`,
   x: `<path d="M3.5 3.5l9 9M12.5 3.5l-9 9"/>`,
   linkedin: `<rect x="2.5" y="2.5" width="11" height="11" rx="2"/><path d="M5.5 7v4M5.5 5.2v.1M8 11V7M8 8.6C8 7.6 8.8 7 9.6 7S11 7.6 11 8.6V11"/>`,
-  youtube: `<rect x="1.5" y="3.5" width="13" height="9" rx="3"/><path d="M6.8 6v4l3.4-2z"/>`
+  youtube: `<rect x="1.5" y="3.5" width="13" height="9" rx="3"/><path d="M6.8 6v4l3.4-2z"/>`,
+  list: `<path d="M5.5 4h8M5.5 8h8M5.5 12h8M2.5 4h.1M2.5 8h.1M2.5 12h.1"/>`,
+  grid: `<rect x="2.5" y="2.5" width="4.5" height="4.5" rx="1"/><rect x="9" y="2.5" width="4.5" height="4.5" rx="1"/><rect x="2.5" y="9" width="4.5" height="4.5" rx="1"/><rect x="9" y="9" width="4.5" height="4.5" rx="1"/>`
 };
 
 export const icon = name =>

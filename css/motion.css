@@ -1,0 +1,87 @@
+/* Yükleme çubuğu, açılış animasyonları ve geçişler */
+
+@keyframes rise { from { opacity: 0; transform: translateY(10px); } }
+@keyframes pop  { from { opacity: 0; transform: translateY(8px) scale(.985); } }
+@keyframes fade { from { opacity: 0; } }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Üstteki ince ilerleme çubuğu */
+.loadbar {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 2px;
+  z-index: 50;
+  background: var(--text);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .35s ease, opacity .4s ease .15s;
+}
+.loadbar.done { opacity: 0; }
+
+/* Yüklenirken ortada küçük döner halka */
+.spinner {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--border);
+  border-top-color: var(--text);
+  border-radius: 50%;
+  animation: spin .8s linear infinite;
+}
+.page-loader {
+  position: fixed;
+  inset: 62px 0 0 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  transition: opacity .3s ease, visibility 0s .3s;
+}
+html:not(.loading) .page-loader { opacity: 0; visibility: hidden; }
+
+/* Her şey yüklenene kadar içerik gizli, hazır olunca yumuşakça açılır */
+main { transition: opacity .45s ease; }
+html.loading main { opacity: 0; }
+
+/* Açılışta sırayla yükselen bölümler */
+html:not(.loading) .profile > *,
+html:not(.loading) .readme:not(.rd-readme),
+html:not(.loading) #repositories > h2,
+html:not(.loading) .toolbar,
+html:not(.loading) footer {
+  animation: rise .55s cubic-bezier(.2, .7, .2, 1) backwards;
+}
+.profile > :nth-child(2) { animation-delay: .04s !important; }
+.profile > :nth-child(3) { animation-delay: .08s !important; }
+.profile > :nth-child(4) { animation-delay: .12s !important; }
+.profile > :nth-child(5) { animation-delay: .16s !important; }
+.profile > :nth-child(6) { animation-delay: .20s !important; }
+.profile > :nth-child(7) { animation-delay: .24s !important; }
+.profile > :nth-child(8) { animation-delay: .28s !important; }
+.readme:not(.rd-readme) { animation-delay: .12s !important; }
+#repositories > h2 { animation-delay: .2s !important; }
+.toolbar { animation-delay: .24s !important; }
+footer { animation-delay: .5s !important; }
+
+/* Depo kartları: sırayla belirir */
+html:not(.loading) .repo.enter {
+  animation: rise .45s cubic-bezier(.2, .7, .2, 1) backwards;
+  animation-delay: calc(var(--i, 0) * 40ms);
+}
+
+/* Küçük geçişler */
+a, button, input, select, .repo, .button, .avatar {
+  transition: color .15s ease, background-color .15s ease, border-color .15s ease,
+              transform .25s cubic-bezier(.2, .7, .2, 1), opacity .2s ease;
+}
+nav a:hover { color: var(--text); text-decoration: none; }
+.button:hover { border-color: var(--muted); text-decoration: none; }
+.button:active { transform: scale(.985); }
+.avatar:hover { transform: scale(1.03); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-delay: 0s !important;
+    transition-duration: .01ms !important;
+  }
+}
